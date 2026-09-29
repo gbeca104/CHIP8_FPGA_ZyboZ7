@@ -1,0 +1,13 @@
+# Ignorar a pasta de trabalho temporária do Vivado
+vivado_project/
+
+# Ficheiros de registo e temporários gerados pelo Vivado
+*.jou
+*.log
+*.str
+*.Xil/
+.Xil/
+
+# Ficheiros de sistema operativo
+.DS_Store
+Thumbs.db
