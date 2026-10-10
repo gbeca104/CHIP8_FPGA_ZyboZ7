@@ -49,7 +49,7 @@ output logic vf_out         //1-bit flag to signal carry or borrow or shifted bi
                 //bits from two values, and if either bit is 1, then the same bit in the result
                 //is also 1. Otherwise, it is 0.
                 
-                ALU_out = Vx_in | Vy_in;
+                    ALU_out = Vx_in | Vy_in;
                 
                 end
         
@@ -58,7 +58,7 @@ output logic vf_out         //1-bit flag to signal carry or borrow or shifted bi
                 //bits from two values, and if both bits are 1, then the same bit in the result
                 //is also 1. Otherwise, it is 0.
                 
-                ALU_out = Vx_in & Vy_in;
+                    ALU_out = Vx_in & Vy_in;
                 
                 end
                 
@@ -67,8 +67,26 @@ output logic vf_out         //1-bit flag to signal carry or borrow or shifted bi
                 //corresponding bits from two values, and if the bits are not both the same, then
                 //the corresponding bit in the result is set to 1. Otherwise, it is 0.
                 
-                ALU_out = Vx_in ^ Vy_in;
+                    ALU_out = Vx_in ^ Vy_in;
                 end
+                
+                4'h4: begin //(ADD): ADD Vx, Vy ;  Vx = Vx + Vy, Set VF = Carry
+                //The values of Vx and Vy are added together. If the result is greater
+                //than 8 bits (i.e., > 255,) VF is set to 1, otherwise 0. Only the lowest
+                //8 bits of the result are kept, and stored in Vx.
+                
+                    {vf_out, ALU_out} = Vx_in + Vy_in;
+
+                 end
+                 
+                 4'h5: begin //(SUB): SUB Vx, Vy; Vx = Vx - Vy, set VF = NOT borrow
+                 //If Vx > Vy, then VF is set to 1, otherwise 0. Then Vy is subtracted
+                 //from Vx, and the results stored in Vx.
+
+                    ALU_out = Vx_in - Vy_in;    //ex: 3-5 = -2 == 256-2 = 254.
+                    vf_out = (Vx_in >= Vy_in);  //if Vx >= Vy, vf_out = 1; else vf_out=0;
+                   
+                 end
                 
                 default: begin
                 ALU_out = 8'h00;
