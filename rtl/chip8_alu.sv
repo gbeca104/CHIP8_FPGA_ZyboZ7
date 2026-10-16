@@ -87,6 +87,35 @@ output logic vf_out         //1-bit flag to signal carry or borrow or shifted bi
                     vf_out = (Vx_in >= Vy_in);  //if Vx >= Vy, vf_out = 1; else vf_out=0;
                    
                  end
+                 
+                 4'h6: begin //(SHR): SHR Vx; Operation SHIFT RIGHT
+                 //If the least-significant bit of Vx is 1, then VF is set to 1,
+                 //otherwise 0. Then Vx is divided by 2.
+                 
+                     vf_out = Vx_in[0];
+                     ALU_out = Vx_in >> 1;
+
+                 end
+                 
+                 4'h7: begin //(SUBN): SUBN Vx, Vy; Vx = Vy - Vx, set VF = NOT borrow
+                 //If Vy > Vx, then VF is set to 1, otherwise 0. Then Vx is subtracted
+                 //from Vy, and the results stored in Vx.
+
+                    ALU_out = Vy_in - Vx_in;    //ex: 3-5 = -2 == 256-2 = 254.
+                    vf_out = (Vy_in >= Vx_in);  //if Vy >= Vx, vf_out = 1; else vf_out=0;
+
+                 end
+                 
+                 
+                 4'hE: begin //(SHL): SHL Vx; Operation SHIFT LEFT
+                 //If the most-significant bit of Vx is 1, then VF is set to 1,
+                 //otherwise 0. Then Vx is divided by 2.
+                 
+                     vf_out = Vx_in[7];
+                     ALU_out = Vx_in << 1;
+    
+                 end
+                
                 
                 default: begin
                 ALU_out = 8'h00;

@@ -40,8 +40,8 @@ module tb_chip8_alu();
 
     // 3. Injecting electrical pulses over time
     initial begin
-        // Defining initial values for V1 = 170 (10101010) and V2 = 100 (01100100).
-        tb_Vx_in = 8'b10101010; 
+        // Defining initial values for V1 = 171 (10101011) and V2 = 100 (01100100).
+        tb_Vx_in = 8'b10101011; 
         tb_Vy_in = 8'b01100100; 
 
         //Test 1:(ASSIGN)
@@ -67,6 +67,19 @@ module tb_chip8_alu();
         // Test 6: (SUB)
         tb_ALU_op = 4'h5;
         #10;
+        
+        // Test 7: (SHR)
+        tb_ALU_op = 4'h6;
+        #10;
+        
+        // Test 8: (SUBN)
+        tb_ALU_op = 4'h7;
+        #10;
+                
+        // Test 9: (SHL)
+        tb_ALU_op = 4'hE;
+        #10;
+        
         
 
         // Stop simulator
